@@ -24,6 +24,7 @@ namespace _7_dec_2017_DragRace {
         /// This toggles if the monitor is shown on the screen
         /// </summary>
         public void ToggleView() {
+            PrintLn("Monitor toggled", false);
             this.Visible = !this.Visible;
         }
 

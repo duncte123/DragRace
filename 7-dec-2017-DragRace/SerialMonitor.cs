@@ -82,7 +82,7 @@ namespace _7_dec_2017_DragRace {
         public void Clear() {
             theBox.Clear();
             theBox.ScrollToCaret();
-            PrintLn("Cleared");
+            PrintLn("Cleared", false);
             theBox.ScrollToCaret();
         }
 
@@ -96,7 +96,7 @@ namespace _7_dec_2017_DragRace {
         }
 
         private void cbShowExtensiveDSte_CheckedChanged(object sender, EventArgs e) {
-            PrintLn("Extensive mode toggled", "R", false);
+            PrintLn("Spam galore mode toggled", "R", false);
         }
     }
 }

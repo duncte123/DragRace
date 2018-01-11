@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,9 +16,10 @@ namespace _7_dec_2017_DragRace {
         private Car[] cars = new Car[4];
         private List<Car> finishedCars = new List<Car>();
         private Random randomDSte = new Random();
-        private String finishedTemplate = "Car {0} has finished {1} in {2} seconds.";
+        private String finishedTemplate = "{0} has finished {1} in {2} seconds.";
         private double startTime = 0;
         private double totalTime = 0;
+        private int waitTimer = 0;
         private Boolean raceRunning = false;
         private SerialMonitor monitor = new SerialMonitor();
 
@@ -103,6 +105,15 @@ namespace _7_dec_2017_DragRace {
         }
 
         private void tmrMoveCarsDSte_Tick(object sender, EventArgs e) {
+            /*
+             * This number is a magic value, and it was a lot of trial and error to get it right
+             * basicly that is how many ticks it takes before the correct part in the song starts
+             * because I don't want to start the cars before that part in the song
+             */
+            if(waitTimer < 35) {
+                waitTimer++;
+                return;
+            }
             monitor.PrintLn("Timer has ticked");
             monitor.PrintLn("Adding one to time");
             this.totalTime++;
@@ -150,6 +161,7 @@ namespace _7_dec_2017_DragRace {
                 monitor.PrintLn("Race has ended", false);
                 monitor.Print("First place: ", false);
                 monitor.PrintLn(this.finishedCars[0].name, "G", false);
+                StopAudio();
                 MessageBox.Show("Race is over");
             }
         }
@@ -162,6 +174,9 @@ namespace _7_dec_2017_DragRace {
         private void btnStartDSte_Click(object sender, EventArgs e) {
             monitor.PrintLn("Clicked the start button", false);
             if (!this.raceRunning) {
+                this.lblTimerDSte.Text = "Race has been going for: 0ms";
+                waitTimer = 0;
+                playSoundDSTe("Nyan_Cat.mp3");
                 monitor.PrintLn("Starting a race");
                 monitor.PrintLn("Resetting total time");
                 this.totalTime = 0;
@@ -271,6 +286,46 @@ namespace _7_dec_2017_DragRace {
             monitor.PrintLn("Monitor toggled");
             monitor.ToggleView();
         }
+
+        #region Audio handling code
+        /// <summary>
+        /// This plays an audio file wthe the given name from assets/sound
+        /// </summary>
+        /// <param name="fileName">The file name to play</param>
+        private void playSoundDSTe(String fileName) {
+            //Stop the player before playing it so we know that we can play a file
+            StopAudio();
+            PlayAudio(fileName);
+        }
+        //Start default audio handling code
+        //None of this is my code, all credit for this code goes to Jbra
+        //dll import to add audio
+        [DllImport("winmm.dll")]
+
+        private static extern long mciSendString(
+        string strCommand,
+        StringBuilder strReturn,
+        int iReturnLength,
+        IntPtr hwndCallback);
+
+        private void PlayAudio(String fileName) {
+            //play audio
+            mciSendString("open \"" +
+                          Application.StartupPath +
+                          "\\..\\..\\assets\\sound\\"
+                          + fileName
+                          + "\" type mpegvideo alias MediaFile", null, 0, IntPtr.Zero);
+
+            mciSendString("play MediaFile", null, 0, IntPtr.Zero);
+        }
+
+        private static void StopAudio() {
+            //Stop audio if audio already played
+            mciSendString("close MediaFile", null, 0, IntPtr.Zero);
+        }
+
+        //End default audio handling code
+        #endregion
 
     }
 }

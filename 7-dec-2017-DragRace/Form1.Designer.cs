@@ -1,4 +1,7 @@
-﻿namespace _7_dec_2017_DragRace {
+﻿using System;
+using System.Windows.Forms;
+
+namespace _7_dec_2017_DragRace {
     partial class Form1 {
         /// <summary>
         /// Required designer variable.
@@ -553,6 +556,8 @@
             this.Name = "Form1";
             this.Text = "ta";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.Move += new System.EventHandler(this.Form1_Move);
+            this.Resize += new System.EventHandler(this.Form1_Resize);
             this.pnlBackDSte.ResumeLayout(false);
             this.tabMainDSte.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -622,6 +627,15 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.Label lblTimerDSte;
         private System.Windows.Forms.CheckBox cbShowLogDSte;
+
+
+        private void Form1_Resize(object sender, EventArgs e) {
+            monitor.PrintLn("Form resized");
+        }
+        private void Form1_Move(object sender, EventArgs e) {
+            monitor.PrintLn("Window moved");
+            monitor.PrintLn("New loc: " + this.Location.ToString());
+        }
     }
 }
 

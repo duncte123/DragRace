@@ -58,6 +58,13 @@ namespace _7_dec_2017_DragRace {
         /// </summary>
         public Boolean finished { get; set; }
 
+        public Boolean canChangeSpeed {
+            get => !this.speedChangedOnece;
+        }
+
+        /// <summary>
+        /// This sets the car speed
+        /// </summary>
         public int carSpeed {
             get => this.speed;
             set {

@@ -25,6 +25,7 @@
         private void InitializeComponent() {
             this.rtbLogDSte = new System.Windows.Forms.RichTextBox();
             this.btnClearDSte = new System.Windows.Forms.Button();
+            this.cbShowExtensiveDSte = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // rtbLogDSte
@@ -49,16 +50,31 @@
             this.btnClearDSte.UseVisualStyleBackColor = true;
             this.btnClearDSte.Click += new System.EventHandler(this.btnClearDSte_Click);
             // 
+            // cbShowExtensiveDSte
+            // 
+            this.cbShowExtensiveDSte.AutoSize = true;
+            this.cbShowExtensiveDSte.Location = new System.Drawing.Point(12, 354);
+            this.cbShowExtensiveDSte.Name = "cbShowExtensiveDSte";
+            this.cbShowExtensiveDSte.Size = new System.Drawing.Size(156, 21);
+            this.cbShowExtensiveDSte.TabIndex = 2;
+            this.cbShowExtensiveDSte.Text = "Show Extensive Log";
+            this.cbShowExtensiveDSte.UseVisualStyleBackColor = true;
+            this.cbShowExtensiveDSte.CheckedChanged += new System.EventHandler(this.cbShowExtensiveDSte_CheckedChanged);
+            // 
             // SerialMonitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(731, 399);
+            this.ControlBox = false;
+            this.Controls.Add(this.cbShowExtensiveDSte);
             this.Controls.Add(this.btnClearDSte);
             this.Controls.Add(this.rtbLogDSte);
             this.Name = "SerialMonitor";
             this.Text = "SerialMonitor";
+            this.Move += new System.EventHandler(this.SerialMonitor_Move);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -66,5 +82,6 @@
 
         private System.Windows.Forms.RichTextBox rtbLogDSte;
         private System.Windows.Forms.Button btnClearDSte;
+        private System.Windows.Forms.CheckBox cbShowExtensiveDSte;
     }
 }

@@ -32,8 +32,8 @@ namespace _7_dec_2017_DragRace {
         /// </summary>
         /// <param name="a_text">the text</param>
         /// <param name="a_color">the color</param>
-        public void PrintLn(Object a_text, String a_color, Boolean isExtensive = true) {
-            this.Print(a_text + "\n", a_color, isExtensive);
+        public void PrintLn(Object a_text, String a_color) {
+            this.Print(a_text + "\n", a_color);
         }
 
         /// <summary>
@@ -41,10 +41,8 @@ namespace _7_dec_2017_DragRace {
         /// </summary>
         /// <param name="a_text">the text</param>
         /// <param name="a_color">the color</param>
-        public void Print(Object a_text, String a_color, Boolean isExtensive = true) {
+        public void Print(Object a_text, String a_color) {
 
-            if (isExtensive && !this.cbShowExtensiveDSte.Checked) return;
-            
             switch (a_color.ToUpper()) {
                 case "R": theBox.SelectionColor = Color.Red; break;
                 case "G": theBox.SelectionColor = Color.Green; break;
@@ -52,11 +50,9 @@ namespace _7_dec_2017_DragRace {
                 default: theBox.SelectionColor = Color.White; break;
             }
 
-            String outPutText = "[" + DateTime.Now.Ticks + "] " + a_text;
+            Debug.Write(a_text);
 
-            Debug.Write(outPutText);
-
-            theBox.AppendText(outPutText);
+            theBox.AppendText(Convert.ToString(a_text));
             theBox.ScrollToCaret();
         }
 
@@ -64,16 +60,16 @@ namespace _7_dec_2017_DragRace {
         /// This prints a message with a new line in the monitor
         /// </summary>
         /// <param name="a_text">the text to print</param>
-        public void PrintLn(Object a_text, Boolean isExtensive = true) {
-            PrintLn(a_text, "W", isExtensive);
+        public void PrintLn(Object a_text) {
+            PrintLn(a_text, "W");
         }
 
         /// <summary>
         /// This prints a message in the monitor
         /// </summary>
         /// <param name="a_text">the text to print</param>
-        public void Print(Object a_text, Boolean isExtensive = true) {
-            Print(a_text, "W", isExtensive);
+        public void Print(Object a_text) {
+            Print(a_text, "W");
         }
 
         /// <summary>
@@ -88,15 +84,6 @@ namespace _7_dec_2017_DragRace {
 
         private void btnClearDSte_Click(object sender, EventArgs e) {
             this.Clear();
-        }
-
-        private void SerialMonitor_Move(object sender, EventArgs e) {
-            PrintLn("Monitor moved");
-            PrintLn("New loc: " + this.Location.ToString());
-        }
-
-        private void cbShowExtensiveDSte_CheckedChanged(object sender, EventArgs e) {
-            PrintLn("Extensive mode toggled", "R", false);
         }
     }
 }

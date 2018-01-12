@@ -154,16 +154,22 @@ namespace _7_dec_2017_DragRace {
 
             monitor.PrintLn("Checking if all cars are finished");
             if (cars[0].finished && cars[1].finished && cars[2].finished && cars[3].finished) {
-                monitor.PrintLn("Stopping timer");
-                this.tmrMoveCarsDSte.Stop();
-                monitor.PrintLn("Setting running to false");
-                this.raceRunning = false;
-                monitor.PrintLn("Race has ended", false);
-                monitor.Print("First place: ", false);
-                monitor.PrintLn(this.finishedCars[0].name, "G", false);
-                StopAudio();
-                MessageBox.Show("Race is over");
+                RaceFinished();
             }
+        }
+        /// <summary>
+        /// This method gets called when the race is finished
+        /// </summary>
+        private void RaceFinished() {
+            monitor.PrintLn("Stopping timer");
+            this.tmrMoveCarsDSte.Stop();
+            monitor.PrintLn("Setting running to false");
+            this.raceRunning = false;
+            monitor.PrintLn("Race has ended", false);
+            monitor.Print("First place: ", false);
+            monitor.PrintLn(this.finishedCars[0].name, "G", false);
+            StopAudio();
+            MessageBox.Show("Race is over");
         }
 
         /// <summary>
@@ -294,6 +300,7 @@ namespace _7_dec_2017_DragRace {
         /// <param name="fileName">The file name to play</param>
         private void playSoundDSTe(String fileName) {
             //Stop the player before playing it so we know that we can play a file
+            monitor.PrintLn("Starting audio", false);
             StopAudio();
             PlayAudio(fileName);
         }

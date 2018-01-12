@@ -97,7 +97,7 @@ namespace _7_dec_2017_DragRace {
         }
 
         private void cbShowExtensiveDSte_CheckedChanged(object sender, EventArgs e) {
-            PrintLn("Spam galore mode toggled", "R", false);
+            PrintLn("Spam gore mode toggled", "R", false);
         }
     }
 }

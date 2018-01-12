@@ -55,9 +55,9 @@
             this.cbShowExtensiveDSte.AutoSize = true;
             this.cbShowExtensiveDSte.Location = new System.Drawing.Point(12, 354);
             this.cbShowExtensiveDSte.Name = "cbShowExtensiveDSte";
-            this.cbShowExtensiveDSte.Size = new System.Drawing.Size(224, 21);
+            this.cbShowExtensiveDSte.Size = new System.Drawing.Size(138, 21);
             this.cbShowExtensiveDSte.TabIndex = 2;
-            this.cbShowExtensiveDSte.Text = "Log everything, just everything";
+            this.cbShowExtensiveDSte.Text = "Spam gore mode";
             this.cbShowExtensiveDSte.UseVisualStyleBackColor = true;
             this.cbShowExtensiveDSte.CheckedChanged += new System.EventHandler(this.cbShowExtensiveDSte_CheckedChanged);
             // 

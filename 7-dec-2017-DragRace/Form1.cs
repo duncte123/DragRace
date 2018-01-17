@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -104,13 +105,13 @@ namespace _7_dec_2017_DragRace {
             #endregion
         }
 
-        private void tmrMoveCarsDSte_Tick(object sender, EventArgs e) {
+        private void TmrMoveCarsDSte_Tick(object sender, EventArgs e) {
             /*
              * This number is a magic value, and it was a lot of trial and error to get it right
              * basicly that is how many ticks it takes before the correct part in the song starts
              * because I don't want to start the cars before that part in the song
              */
-            if(waitTimer < 35) {
+            if (waitTimer < 35) {
                 waitTimer++;
                 return;
             }
@@ -144,8 +145,8 @@ namespace _7_dec_2017_DragRace {
                         monitor.PrintLn("Setting finish time");
                         double finishTime = Math.Round((DateTime.Now.TimeOfDay.TotalMilliseconds - startTime) / 1000.0);
                         monitor.PrintLn("Appending text");
-                        this.lblFinishedCarsDSte.Text += String.Format(this.finishedTemplate, 
-                            carToMove.name, getPos(this.finishedCars.Count), finishTime) + "\n";
+                        this.lblFinishedCarsDSte.Text += String.Format(this.finishedTemplate,
+                            carToMove.name, GetPos(this.finishedCars.Count), finishTime) + "\n";
                         monitor.PrintLn("Saving cars");
                         this.finishedCars.Add(carToMove);
                     }
@@ -177,12 +178,12 @@ namespace _7_dec_2017_DragRace {
         /// </summary>
         /// <param name="sender">the button</param>
         /// <param name="e">the args</param>
-        private void btnStartDSte_Click(object sender, EventArgs e) {
+        private void BtnStartDSte_Click(object sender, EventArgs e) {
             monitor.PrintLn("Clicked the start button", false);
             if (!this.raceRunning) {
                 this.lblTimerDSte.Text = "Race has been going for: 0ms";
                 waitTimer = 0;
-                playSoundDSTe("Nyan_Cat.mp3");
+                PlaySoundDSTe("Nyan_Cat.mp3");
                 monitor.PrintLn("Starting a race");
                 monitor.PrintLn("Resetting total time");
                 this.totalTime = 0;
@@ -191,7 +192,7 @@ namespace _7_dec_2017_DragRace {
                 monitor.PrintLn("Clearing finnished car text");
                 this.lblFinishedCarsDSte.Text = "";
                 monitor.PrintLn("Resetting cars");
-                this.resetAllCars();
+                this.ResetAllCars();
                 monitor.PrintLn("Starting timer");
                 this.tmrMoveCarsDSte.Start();
                 monitor.PrintLn("Setting start time");
@@ -202,7 +203,7 @@ namespace _7_dec_2017_DragRace {
         /// <summary>
         /// This resets all car positions to the default
         /// </summary>
-        private void resetAllCars() {
+        private void ResetAllCars() {
             monitor.PrintLn("Resettings all cars", "R", false);
             this.finishedCars.Clear();
             foreach (Car car in this.cars) {
@@ -216,7 +217,7 @@ namespace _7_dec_2017_DragRace {
         /// </summary>
         /// <param name="pos">The position of the car</param>
         /// <returns>first, second, third or last</returns>
-        private String getPos(int pos) {
+        private String GetPos(int pos) {
             monitor.PrintLn("Getting pos from " + pos);
             switch (pos) {
                 case 0:
@@ -261,7 +262,7 @@ namespace _7_dec_2017_DragRace {
             monitor.PrintLn("Creating dialog");
             //Use the visual basic for the input 😛
             string input = Microsoft.VisualBasic.Interaction.InputBox(
-                String.Format("Change the name for {0}?", preview.carObj.name), 
+                String.Format("Change the name for {0}?", preview.carObj.name),
                 "Change name?", preview.carObj.name, -1, -1);
 
             monitor.PrintLn("Checking if input is null");
@@ -274,23 +275,44 @@ namespace _7_dec_2017_DragRace {
             monitor.PrintLn("Name changed");
         }
 
-        private void trackToolStripMenuItem_Click(object sender, EventArgs e) {
+        private void TrackToolStripMenuItem_Click(object sender, EventArgs e) {
             monitor.PrintLn("Clicked menu strip 0");
             if (this.raceRunning) return;
             monitor.PrintLn("Changing tab");
             this.tabMainDSte.SelectTab(0);
         }
 
-        private void settingsToolStripMenuItem_Click(object sender, EventArgs e) {
+        private void SettingsToolStripMenuItem_Click(object sender, EventArgs e) {
             monitor.PrintLn("Clicked menu strip 1");
             if (this.raceRunning) return;
             monitor.PrintLn("Changing tab");
             this.tabMainDSte.SelectTab(1);
         }
 
-        private void cbShowLogDSte_CheckedChanged(object sender, EventArgs e) {
+        private void CbShowLogDSte_CheckedChanged(object sender, EventArgs e) {
             monitor.PrintLn("Monitor toggled");
             monitor.ToggleView();
+        }
+
+        private void ManualToolStripMenuItem_Click(object sender, EventArgs e) {
+            //Show the manual
+            Process.Start("explorer.exe", Application.StartupPath + "\\..\\..\\assets\\manual\\manual.pdf");
+        }
+
+        private void LocateToolStripMenuItem_Click(object sender, EventArgs e) {
+            //This opens an explorer window with the app in it
+            Process.Start("explorer.exe", Application.StartupPath);
+        }
+
+        private void AboutToolStripMenuItem_Click(object sender, EventArgs e) {
+            //Set the about message
+            String m_about = "C# DragRace.\n\n" +
+                "Created by:\t\tDuncan \"duncte123\" Sterken\n" +
+                "Thanks to:\t\tDuncan for coding\n" +
+                "Date:\t\t\t7 Dec 2017";
+
+            MessageBox.Show(m_about, "About");
+            monitor.PrintLn(m_about, "B");
         }
 
         #region Audio handling code
@@ -298,7 +320,7 @@ namespace _7_dec_2017_DragRace {
         /// This plays an audio file wthe the given name from assets/sound
         /// </summary>
         /// <param name="fileName">The file name to play</param>
-        private void playSoundDSTe(String fileName) {
+        private void PlaySoundDSTe(String fileName) {
             //Stop the player before playing it so we know that we can play a file
             monitor.PrintLn("Starting audio", false);
             StopAudio();
@@ -318,10 +340,10 @@ namespace _7_dec_2017_DragRace {
         private void PlayAudio(String fileName) {
             //play audio
             mciSendString("open \"" +
-                          Application.StartupPath +
-                          "\\..\\..\\assets\\sound\\"
-                          + fileName
-                          + "\" type mpegvideo alias MediaFile", null, 0, IntPtr.Zero);
+                            Application.StartupPath +
+                            "\\..\\..\\assets\\sound\\"
+                            + fileName
+                            + "\" type mpegvideo alias MediaFile", null, 0, IntPtr.Zero);
 
             mciSendString("play MediaFile", null, 0, IntPtr.Zero);
         }
@@ -333,6 +355,5 @@ namespace _7_dec_2017_DragRace {
 
         //End default audio handling code
         #endregion
-
     }
 }

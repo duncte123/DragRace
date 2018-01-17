@@ -74,6 +74,10 @@ namespace _7_dec_2017_DragRace {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.trackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.othersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.manualToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.locateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlBackDSte.SuspendLayout();
             this.tabMainDSte.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -194,7 +198,7 @@ namespace _7_dec_2017_DragRace {
             // 
             // tmrMoveCarsDSte
             // 
-            this.tmrMoveCarsDSte.Tick += new System.EventHandler(this.tmrMoveCarsDSte_Tick);
+            this.tmrMoveCarsDSte.Tick += new System.EventHandler(this.TmrMoveCarsDSte_Tick);
             // 
             // btnStartDSte
             // 
@@ -205,7 +209,7 @@ namespace _7_dec_2017_DragRace {
             this.btnStartDSte.TabIndex = 1;
             this.btnStartDSte.Text = "Start";
             this.btnStartDSte.UseVisualStyleBackColor = true;
-            this.btnStartDSte.Click += new System.EventHandler(this.btnStartDSte_Click);
+            this.btnStartDSte.Click += new System.EventHandler(this.BtnStartDSte_Click);
             // 
             // tabMainDSte
             // 
@@ -241,7 +245,7 @@ namespace _7_dec_2017_DragRace {
             this.cbShowLogDSte.TabIndex = 6;
             this.cbShowLogDSte.Text = "Toggle SerialMonitor";
             this.cbShowLogDSte.UseVisualStyleBackColor = true;
-            this.cbShowLogDSte.CheckedChanged += new System.EventHandler(this.cbShowLogDSte_CheckedChanged);
+            this.cbShowLogDSte.CheckedChanged += new System.EventHandler(this.CbShowLogDSte_CheckedChanged);
             // 
             // lblFinishedCarsDSte
             // 
@@ -524,7 +528,8 @@ namespace _7_dec_2017_DragRace {
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.trackToolStripMenuItem,
-            this.settingsToolStripMenuItem});
+            this.settingsToolStripMenuItem,
+            this.othersToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1214, 28);
@@ -536,14 +541,45 @@ namespace _7_dec_2017_DragRace {
             this.trackToolStripMenuItem.Name = "trackToolStripMenuItem";
             this.trackToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
             this.trackToolStripMenuItem.Text = "Track";
-            this.trackToolStripMenuItem.Click += new System.EventHandler(this.trackToolStripMenuItem_Click);
+            this.trackToolStripMenuItem.Click += new System.EventHandler(this.TrackToolStripMenuItem_Click);
             // 
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(74, 24);
             this.settingsToolStripMenuItem.Text = "Settings";
-            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
+            // 
+            // othersToolStripMenuItem
+            // 
+            this.othersToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.manualToolStripMenuItem,
+            this.locateToolStripMenuItem,
+            this.aboutToolStripMenuItem});
+            this.othersToolStripMenuItem.Name = "othersToolStripMenuItem";
+            this.othersToolStripMenuItem.Size = new System.Drawing.Size(64, 24);
+            this.othersToolStripMenuItem.Text = "Others";
+            // 
+            // manualToolStripMenuItem
+            // 
+            this.manualToolStripMenuItem.Name = "manualToolStripMenuItem";
+            this.manualToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.manualToolStripMenuItem.Text = "Manual";
+            this.manualToolStripMenuItem.Click += new System.EventHandler(this.ManualToolStripMenuItem_Click);
+            // 
+            // locateToolStripMenuItem
+            // 
+            this.locateToolStripMenuItem.Name = "locateToolStripMenuItem";
+            this.locateToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.locateToolStripMenuItem.Text = "Locate";
+            this.locateToolStripMenuItem.Click += new System.EventHandler(this.LocateToolStripMenuItem_Click);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -555,6 +591,7 @@ namespace _7_dec_2017_DragRace {
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "ta";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Move += new System.EventHandler(this.Form1_Move);
             this.Resize += new System.EventHandler(this.Form1_Resize);
@@ -636,6 +673,17 @@ namespace _7_dec_2017_DragRace {
             monitor.PrintLn("Window moved");
             monitor.PrintLn("New loc: " + this.Location.ToString());
         }
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e) {
+            DialogResult dialogResult = MessageBox.Show("Are you sure that you want to exit?", "ALERT", MessageBoxButtons.YesNo);
+            if (dialogResult != DialogResult.Yes) {
+                e.Cancel = true;
+            }
+        }
+
+        private ToolStripMenuItem othersToolStripMenuItem;
+        private ToolStripMenuItem manualToolStripMenuItem;
+        private ToolStripMenuItem locateToolStripMenuItem;
+        private ToolStripMenuItem aboutToolStripMenuItem;
     }
 }
 

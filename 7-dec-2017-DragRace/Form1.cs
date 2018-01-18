@@ -17,7 +17,7 @@ namespace _7_dec_2017_DragRace {
         private Car[] cars = new Car[4];
         private List<Car> finishedCars = new List<Car>();
         private Random randomDSte = new Random();
-        private String finishedTemplate = "{0} has finished {1} in {2} seconds.";
+        private String finishedTemplate = "{0} has finished {1} in {2} seconds. {0} has won a total of {3} times";
         private double startTime = 0;
         private double totalTime = 0;
         private int waitTimer = 0;
@@ -67,6 +67,7 @@ namespace _7_dec_2017_DragRace {
             monitor.PrintLn("Upading car 1");
             car1Storage.update();
             this.btnColorCar1DSte.Tag = car1Storage;
+            this.pnlPreviewCar1.Tag = car1Storage;
             this.btnNameCar1DSte.Tag = car1Storage;
 
             monitor.PrintLn("Creating PreviewStorage for car 2");
@@ -78,6 +79,7 @@ namespace _7_dec_2017_DragRace {
             monitor.PrintLn("Upading car 2");
             car2Storage.update();
             this.btnColorCar2DSte.Tag = car2Storage;
+            this.pnlPreviewCar2.Tag = car2Storage;
             this.btnNameCar2DSte.Tag = car2Storage;
 
             monitor.PrintLn("Creating PreviewStorage for car 3");
@@ -89,6 +91,7 @@ namespace _7_dec_2017_DragRace {
             monitor.PrintLn("Upading car 2");
             car3Storage.update();
             this.btnColorCar3DSte.Tag = car3Storage;
+            this.pnlPreviewCar3.Tag = car3Storage;
             this.btnNameCar3DSte.Tag = car3Storage;
 
             monitor.PrintLn("Creating PreviewStorage for car 4");
@@ -100,6 +103,7 @@ namespace _7_dec_2017_DragRace {
             monitor.PrintLn("Upading car 4");
             car4Storage.update();
             this.btnColorCar4DSte.Tag = car4Storage;
+            this.pnlPreviewCar4.Tag = car4Storage;
             this.btnNameCar4DSte.Tag = car4Storage;
             monitor.PrintLn("Car settings have been loaded", false);
             #endregion
@@ -119,42 +123,46 @@ namespace _7_dec_2017_DragRace {
             monitor.PrintLn("Adding one to time");
             this.totalTime++;
             monitor.PrintLn("Setting text");
-            this.lblTimerDSte.Text = "Race has been going for: " + this.totalTime + "ms";
+            this.lblTimerDSte.Text = "Race has been going for: " + this.totalTime + " timer ticks";
             monitor.PrintLn("Calculating finish line");
             int finnishPos = this.pnlFinnishDSte.Left + this.pnlFinnishDSte.Width + 5;
             monitor.PrintLn("Looping over all cars");
             foreach (Car carToMove in this.cars) {
                 monitor.PrintLn("Checking if car is finnished");
-                if (!(carToMove.carObj.Left >= finnishPos)) {
+                if (!(carToMove.CarObj.Left >= finnishPos)) {
                     monitor.PrintLn("Checking if car needs new speed");
-                    if (carToMove.carObj.Left >= this.pnlNewSpeedTriggerDSte.Left && carToMove.canChangeSpeed) {
+                    if (carToMove.CarObj.Left >= this.pnlNewSpeedTriggerDSte.Left && carToMove.CanChangeSpeed) {
                         monitor.PrintLn("Setting new speed", false);
-                        carToMove.carSpeed = randomDSte.Next(3, 10);
+                        carToMove.CarSpeed = randomDSte.Next(3, 10);
                     }
                     monitor.PrintLn("Moving car");
-                    carToMove.move();
+                    carToMove.MoveCar();
                     monitor.PrintLn("Car has moved");
                 } else {
                     monitor.PrintLn("Checking if the car is not finnished");
-                    if (!carToMove.finished) {
+                    if (!carToMove.Finished) {
                         monitor.PrintLn("Set car to finnished");
-                        carToMove.carObj.Left = this.pnlFinnishDSte.Left + this.pnlFinnishDSte.Width + 5;
-                        carToMove.finished = true;
+                        carToMove.CarObj.Left = this.pnlFinnishDSte.Left + this.pnlFinnishDSte.Width + 5;
                         monitor.PrintLn("Log message");
-                        monitor.PrintLn("Car " + carToMove.name + " has finished", "G");
+                        monitor.PrintLn("Car " + carToMove.CarName + " has finished", "G");
                         monitor.PrintLn("Setting finish time");
                         double finishTime = Math.Round((DateTime.Now.TimeOfDay.TotalMilliseconds - startTime) / 1000.0);
                         monitor.PrintLn("Appending text");
-                        this.lblFinishedCarsDSte.Text += String.Format(this.finishedTemplate,
-                            carToMove.name, GetPos(this.finishedCars.Count), finishTime) + "\n";
+                      
                         monitor.PrintLn("Saving cars");
                         this.finishedCars.Add(carToMove);
+                        if(!this.finishedCars[0].Finished) {
+                            carToMove.TotalWins += 1;
+                        }
+                        carToMove.Finished = true;
+                        this.lblFinishedCarsDSte.Text += String.Format(this.finishedTemplate,
+                           carToMove.CarName, GetPos(this.finishedCars.Count - 1), finishTime, carToMove.TotalWins) + "\n";
                     }
                 }
             }
 
             monitor.PrintLn("Checking if all cars are finished");
-            if (cars[0].finished && cars[1].finished && cars[2].finished && cars[3].finished) {
+            if (cars[0].Finished && cars[1].Finished && cars[2].Finished && cars[3].Finished) {
                 RaceFinished();
             }
         }
@@ -162,13 +170,16 @@ namespace _7_dec_2017_DragRace {
         /// This method gets called when the race is finished
         /// </summary>
         private void RaceFinished() {
+            this.btnStartDSte.Text = "Start/Reset";
+            this.btnStartDSte.Font = new Font("Microsoft Sans Serif", 15f);
             monitor.PrintLn("Stopping timer");
             this.tmrMoveCarsDSte.Stop();
             monitor.PrintLn("Setting running to false");
             this.raceRunning = false;
             monitor.PrintLn("Race has ended", false);
             monitor.Print("First place: ", false);
-            monitor.PrintLn(this.finishedCars[0].name, "G", false);
+            monitor.PrintLn(this.finishedCars[0].CarName, "G", false);
+            //this.finishedCars[0].TotalWins += 1;
             StopAudio();
             MessageBox.Show("Race is over");
         }
@@ -181,7 +192,7 @@ namespace _7_dec_2017_DragRace {
         private void BtnStartDSte_Click(object sender, EventArgs e) {
             monitor.PrintLn("Clicked the start button", false);
             if (!this.raceRunning) {
-                this.lblTimerDSte.Text = "Race has been going for: 0ms";
+                this.lblTimerDSte.Text = "Race has been going for: 0 timer ticks";
                 waitTimer = 0;
                 PlaySoundDSTe("Nyan_Cat.mp3");
                 monitor.PrintLn("Starting a race");
@@ -207,13 +218,13 @@ namespace _7_dec_2017_DragRace {
             monitor.PrintLn("Resettings all cars", "R", false);
             this.finishedCars.Clear();
             foreach (Car car in this.cars) {
-                monitor.PrintLn("Resetting car " + car.name);
-                car.reset(randomDSte.Next(3, 10));
+                monitor.PrintLn("Resetting car " + car.CarName);
+                car.ResetCar(randomDSte.Next(3, 10));
             }
         }
 
         /// <summary>
-        /// returns a string when you input a number (very helpful ik 😛)
+        /// returns a string when you input a number (very helpful I know 😛)
         /// </summary>
         /// <param name="pos">The position of the car</param>
         /// <returns>first, second, third or last</returns>
@@ -246,9 +257,9 @@ namespace _7_dec_2017_DragRace {
             monitor.PrintLn("Openeing dialog");
             dialog.ShowDialog();
             monitor.PrintLn("Loading storage");
-            PreviewStorage preview = (PreviewStorage)((Button)sender).Tag;
+            PreviewStorage preview = (PreviewStorage)((Control)sender).Tag;
             monitor.PrintLn("Setting color on car");
-            preview.carObj.color = dialog.Color;
+            preview.carObj.CarColor = dialog.Color;
             monitor.PrintLn("Setting color on preview");
             preview.previewPnl.BackColor = dialog.Color;
             monitor.PrintLn("Color changed");
@@ -262,14 +273,14 @@ namespace _7_dec_2017_DragRace {
             monitor.PrintLn("Creating dialog");
             //Use the visual basic for the input 😛
             string input = Microsoft.VisualBasic.Interaction.InputBox(
-                String.Format("Change the name for {0}?", preview.carObj.name),
-                "Change name?", preview.carObj.name, -1, -1);
+                String.Format("Change the name for {0}?", preview.carObj.CarName),
+                "Change name?", preview.carObj.CarName, -1, -1);
 
             monitor.PrintLn("Checking if input is null");
-            input = input == null || input == "" ? preview.carObj.name : input;
+            input = input == null || input == "" ? preview.carObj.CarName : input;
 
             monitor.PrintLn("Setting name on car");
-            preview.carObj.name = input;
+            preview.carObj.CarName = input;
             monitor.PrintLn("Setting name on preview");
             preview.previewName.Text = input;
             monitor.PrintLn("Name changed");

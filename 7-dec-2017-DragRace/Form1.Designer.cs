@@ -27,6 +27,7 @@ namespace _7_dec_2017_DragRace {
         /// </summary>
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.pnlBackDSte = new System.Windows.Forms.Panel();
             this.pnlNewSpeedTriggerDSte = new System.Windows.Forms.Panel();
             this.pnlFinnishDSte = new System.Windows.Forms.Panel();
@@ -115,6 +116,7 @@ namespace _7_dec_2017_DragRace {
             this.pnlNewSpeedTriggerDSte.Name = "pnlNewSpeedTriggerDSte";
             this.pnlNewSpeedTriggerDSte.Size = new System.Drawing.Size(24, 355);
             this.pnlNewSpeedTriggerDSte.TabIndex = 2;
+            this.pnlNewSpeedTriggerDSte.Visible = false;
             // 
             // pnlFinnishDSte
             // 
@@ -308,6 +310,7 @@ namespace _7_dec_2017_DragRace {
             this.pnlPreviewCar4.Name = "pnlPreviewCar4";
             this.pnlPreviewCar4.Size = new System.Drawing.Size(124, 45);
             this.pnlPreviewCar4.TabIndex = 1;
+            this.pnlPreviewCar4.Click += new System.EventHandler(this.UpdateCarDSte);
             // 
             // btnColorCar4DSte
             // 
@@ -369,6 +372,7 @@ namespace _7_dec_2017_DragRace {
             this.pnlPreviewCar3.Name = "pnlPreviewCar3";
             this.pnlPreviewCar3.Size = new System.Drawing.Size(124, 45);
             this.pnlPreviewCar3.TabIndex = 1;
+            this.pnlPreviewCar3.Click += new System.EventHandler(this.UpdateCarDSte);
             // 
             // btnColorCar3DSte
             // 
@@ -430,6 +434,7 @@ namespace _7_dec_2017_DragRace {
             this.pnlPreviewCar2.Name = "pnlPreviewCar2";
             this.pnlPreviewCar2.Size = new System.Drawing.Size(124, 45);
             this.pnlPreviewCar2.TabIndex = 1;
+            this.pnlPreviewCar2.Click += new System.EventHandler(this.UpdateCarDSte);
             // 
             // label2
             // 
@@ -500,6 +505,7 @@ namespace _7_dec_2017_DragRace {
             this.pnlPreviewCar1.Name = "pnlPreviewCar1";
             this.pnlPreviewCar1.Size = new System.Drawing.Size(124, 45);
             this.pnlPreviewCar1.TabIndex = 1;
+            this.pnlPreviewCar1.Click += new System.EventHandler(this.UpdateCarDSte);
             // 
             // btnNameCar1DSte
             // 
@@ -563,21 +569,21 @@ namespace _7_dec_2017_DragRace {
             // manualToolStripMenuItem
             // 
             this.manualToolStripMenuItem.Name = "manualToolStripMenuItem";
-            this.manualToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.manualToolStripMenuItem.Size = new System.Drawing.Size(133, 26);
             this.manualToolStripMenuItem.Text = "Manual";
             this.manualToolStripMenuItem.Click += new System.EventHandler(this.ManualToolStripMenuItem_Click);
             // 
             // locateToolStripMenuItem
             // 
             this.locateToolStripMenuItem.Name = "locateToolStripMenuItem";
-            this.locateToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.locateToolStripMenuItem.Size = new System.Drawing.Size(133, 26);
             this.locateToolStripMenuItem.Text = "Locate";
             this.locateToolStripMenuItem.Click += new System.EventHandler(this.LocateToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(133, 26);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
@@ -588,6 +594,7 @@ namespace _7_dec_2017_DragRace {
             this.ClientSize = new System.Drawing.Size(1214, 680);
             this.Controls.Add(this.tabMainDSte);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "ta";

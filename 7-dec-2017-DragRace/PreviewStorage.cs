@@ -15,8 +15,8 @@ namespace _7_dec_2017_DragRace {
         public Label previewName { get; set; }
 
         public void update() {
-            this.previewPnl.BackColor = this.carObj.color;
-            this.previewName.Text = this.carObj.name;
+            this.previewPnl.BackColor = this.carObj.CarColor;
+            this.previewName.Text = this.carObj.CarName;
         }
 
     }

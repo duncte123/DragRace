@@ -21,11 +21,11 @@ namespace _7_dec_2017_DragRace {
         /// <param name="a_color">The color that the car needs to have</param>
         /// <param name="a_panel">The actual car, I'm using panels for the car and the best way is to sore them in the class</param>
         public Car(String a_name, Color a_color, Panel a_panel, int a_speed) {
-            this.name = a_name;
+            this.CarName = a_name;
             this.carColor = a_color;
             this.carPanel = a_panel;
             this.speed = a_speed;
-            this.finished = false;
+            this.Finished = false;
 
             this.carPanel.BackColor = this.carColor;
         }
@@ -33,7 +33,7 @@ namespace _7_dec_2017_DragRace {
         /// <summary>
         /// Holds the color that the car has
         /// </summary>
-        public Color color {
+        public Color CarColor {
             get => this.carColor;
             set {
                 this.carColor = value;
@@ -42,30 +42,35 @@ namespace _7_dec_2017_DragRace {
         }
 
         /// <summary>
+        /// This tells us how many times the car has won
+        /// </summary>
+        public int TotalWins { get; set; }
+
+        /// <summary>
         /// Holds the name that the car has
         /// </summary>
-        public String name { get; set; }
+        public String CarName { get; set; }
 
         /// <summary>
         /// This holds the panel that represents the car
         /// </summary>
-        public Panel carObj {
+        public Panel CarObj {
             get => this.carPanel;
         }
 
         /// <summary>
         /// This tells the car if it is finished or not
         /// </summary>
-        public Boolean finished { get; set; }
+        public Boolean Finished { get; set; }
 
-        public Boolean canChangeSpeed {
+        public Boolean CanChangeSpeed {
             get => !this.speedChangedOnece;
         }
 
         /// <summary>
         /// This sets the car speed
         /// </summary>
-        public int carSpeed {
+        public int CarSpeed {
             get => this.speed;
             set {
                 if(!this.speedChangedOnece) {
@@ -79,9 +84,9 @@ namespace _7_dec_2017_DragRace {
         /// This sets the cars position back to 3
         /// I've picked 3 because that is the left position that they are on in the form
         /// </summary>
-        public void reset() {
+        public void ResetCar() {
             this.carPanel.Left = 3;
-            this.finished = false;
+            this.Finished = false;
             this.speedChangedOnece = false;
             this.speed = 0;
         }
@@ -91,13 +96,16 @@ namespace _7_dec_2017_DragRace {
         /// I've picked 3 because that is the left position that they are on in the form
         /// </summary>
         /// <param name="newSpeed">Sets the new speed that the car should have on start</param>
-        public void reset(int newSpeed) {
-            reset();
+        public void ResetCar(int newSpeed) {
+            ResetCar();
             this.speed = newSpeed;
         }
 
-        public void move() {
-            if(!this.finished) {
+        /// <summary>
+        /// This moves a car by the sepeed that is defined
+        /// </summary>
+        public void MoveCar() {
+            if(!this.Finished) {
                 for(int i = 0; i <= this.speed; i++) {
                     this.carPanel.Left++;
                 }
